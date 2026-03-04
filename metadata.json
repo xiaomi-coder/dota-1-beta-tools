@@ -1,0 +1,5 @@
+{
+  "name": "DotA 1 Beta Tools",
+  "description": "A developer utility for calculating 3D view angles and generating C# math code for DotA 1 (Warcraft III) demo tools and memory editing.",
+  "requestFramePermissions": []
+}
