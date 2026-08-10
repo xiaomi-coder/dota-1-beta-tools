@@ -30,22 +30,28 @@ void HackThread(HMODULE hModule) {
     Features::Maphack::Initialize();
 
     // 3. Main Loop
+    bool bF5Pressed = false;
+
     while (true) {
         // Break key to unload cheat (END key)
-        if (GetAsyncKeyState(VK_END) & 1) {
+        if (GetAsyncKeyState(VK_END) & 0x8000) {
             break;
         }
 
         // Toggle Maphack (F5 key)
-        if (GetAsyncKeyState(VK_F5) & 1) {
-            if (Features::Maphack::isEnabled) {
-                Features::Maphack::Disable();
-                std::cout << "[+] Maphack Disabled" << std::endl;
-            } else {
-                Features::Maphack::Enable();
-                std::cout << "[+] Maphack Enabled" << std::endl;
+        if (GetAsyncKeyState(VK_F5) & 0x8000) {
+            if (!bF5Pressed) {
+                bF5Pressed = true;
+                if (Features::Maphack::isEnabled) {
+                    Features::Maphack::Disable();
+                    std::cout << "[+] Maphack Disabled" << std::endl;
+                } else {
+                    Features::Maphack::Enable();
+                    std::cout << "[+] Maphack Enabled" << std::endl;
+                }
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(300)); // Debounce
+        } else {
+            bF5Pressed = false;
         }
 
         // Update Camera (checks Numpad +/-)

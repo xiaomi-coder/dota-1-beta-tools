@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/dota-1-beta-tools/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

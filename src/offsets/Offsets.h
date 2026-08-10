@@ -2,25 +2,50 @@
 #include <cstdint>
 
 namespace Offsets {
-    // Known static offsets for Warcraft 3 (Game.dll version 1.26.0.6401 - "1.26a")
-    
-    // Game.dll Base address (usually dynamic, but the offset from Game.dll is static)
-    // Gamebase offset example
-    constexpr uintptr_t GameDllBaseOffset = 0x0; 
+    // =============================================================
+    // Verified offsets for Warcraft III 1.26a (Game.dll)
+    // Sources: Xenon MH, HiveWorkshop community research
+    // All offsets are relative to Game.dll base address
+    // =============================================================
 
-    // Global Object Manager / Game State
-    // Used to find Local Player, Entity list, Game Time, etc.
-    constexpr uintptr_t GlobalGameEngine = 0xAB4F80; // Example offset for 1.26a
-    constexpr uintptr_t LocalPlayer = 0xBE40;        // Example offset from Engine
+    // --- Game State ---
+    constexpr uintptr_t ChatBoxOpen = 0xAD15F0;     // bool: is chat box open
+    constexpr uintptr_t IsInGame    = 0xAB65F4;     // DWORD: non-zero when in game
 
-    // Camera structure offset (to read/write zoom, pitch, yaw, xyz)
-    // Game.dll + 0xAE19C8 -> points to camera object
-    constexpr uintptr_t CameraManager = 0xAE19C8;
-    
-    namespace Camera {
-        constexpr uintptr_t ZOffset = 0x78;      // Height
-        constexpr uintptr_t Zoom = 0x14C;        // Target distance (Zoom out map)
-        constexpr uintptr_t Pitch = 0x118;       // Angle of attack (Angle to look down)
-        constexpr uintptr_t Yaw = 0x128;         // Rotation 
-    }
+    // --- Maphack: Reveal Units (Main Map) ---
+    constexpr uintptr_t RevealUnitsMain1 = 0x3A14F0; // Patch: 0x87 0xDB (xchg ebx,ebx = NOP the jnz)
+    constexpr uintptr_t RevealUnitsMain2 = 0x3A159B; // Patch: 0x90 0x90 (NOP)
+
+    // --- Maphack: Remove Fog of War (Main Map) ---
+    constexpr uintptr_t FogMainMap = 0x74CA1A;       // Patch: 0x15 0x50
+
+    // --- Maphack: Reveal Units (Mini Map) ---
+    constexpr uintptr_t RevealUnitsMini = 0x36143B;   // Patch: 0x33 0xC0 0x90 0x90 0x90 (xor eax,eax + NOP)
+
+    // --- Maphack: Remove Fog of War (Mini Map) ---
+    constexpr uintptr_t FogMiniMap = 0x356525;        // Patch: 0x87 0xDB
+
+    // --- Maphack: Reveal Illusions ---
+    constexpr uintptr_t RevealIllusions = 0x282A5C;   // Patch: 0x40 0xC3 (inc eax; ret)
+
+    // --- Maphack: Reveal Invisibles ---
+    constexpr uintptr_t RevealInvisibles = 0x399A98;  // Patch: 0xEB (jmp short, skip check)
+
+    // --- Maphack: Bypass DotA -ah (anti-hack) ---
+    constexpr uintptr_t BypassAH1 = 0x3C639C;        // Patch: 0xB8
+    constexpr uintptr_t BypassAH2 = 0x3C63A1;        // Patch: 0xEB
+    constexpr uintptr_t BypassAH3 = 0x3CB872;        // Patch: 0xEB
+
+    // --- Maphack: Make Units Clickable ---
+    constexpr uintptr_t UnitsClickable = 0x2851B2;   // Patch: 0xEB
+
+    // --- Maphack: Trade / Resource View ---
+    constexpr uintptr_t TradeView1 = 0x34DDA2;       // Patch: 0xB8 0xC8 0x00 0x00 0x00 0x90
+    constexpr uintptr_t TradeView2 = 0x34DDAA;       // Patch: 0xB8 0x64 0x00 0x00 0x00 0x90
+    constexpr uintptr_t TradeView3 = 0x35FA4A;       // Patch: 0x90 0x90
+
+    // --- Camera Distance (direct float address) ---
+    // Game.dll + 0x93645C -> float value for camera distance/zoom
+    // Default: ~1650.0f, Min: ~250.0f, Max: ~3000.0f
+    constexpr uintptr_t CameraDistance = 0x93645C;
 }

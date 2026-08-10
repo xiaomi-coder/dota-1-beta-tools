@@ -1,0 +1,4 @@
+D:/dota-1-beta-tools/build/CMakeFiles/DotA1Cheat.dir
+D:/dota-1-beta-tools/build/CMakeFiles/Injector.dir
+D:/dota-1-beta-tools/build/CMakeFiles/edit_cache.dir
+D:/dota-1-beta-tools/build/CMakeFiles/rebuild_cache.dir
